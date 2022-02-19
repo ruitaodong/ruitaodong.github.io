@@ -45,6 +45,18 @@
 		zoomOffset: -1
 	}).addTo(map);
 
+      if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+      latit = position.coords.latitude;
+      longit = position.coords.longitude;
+      // this is just a marker placed in that position
+      var abc = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+      // move the map to have the location in its center
+      map.panTo(new L.LatLng(latit, longit));
+      }
+      )
+      }
+     
 </script>
 
 
