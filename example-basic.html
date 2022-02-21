@@ -33,6 +33,7 @@
 
 	var map = L.map('map').locate({setView:true, maxZoom: 16});
 
+
 	var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', 
 				{
 				maxZoom: 18,
@@ -43,28 +44,27 @@
 				    zoomOffset: -1
 				    }).addTo(map);
 
+
+	var circle = L.circle(map.getCenter(),
+		 {
+	 color: 'blue',
+	     fillcolor: '#0000FF',
+		     fillOpacity: 0.8,
+	     radius: 5}
+		 ).addTo(map)
+
       if (navigator.geolocation) {
-	navigator.geolocation.watchPosition(showMarker);
+	navigator.geolocation.showPosition(showMarker);
       }
 
       function showMarker(position) {
       lat = position.coords.latitude;
-	long = position.coords.longitude;
+	lng = position.coords.longitude;
 	radius = position.coords.accuracy;
-      // this is just a marker placed in that position
-	//x.innerHTML = "Latitude: " + lat + 
-	  "<br>Longitude: " + long;
-
-	var abc = L.marker([lat, long]).addTo(map);
-	L.circle([lat, long],
-		 {
-		 color: 'blue',
-		     fillcolor: '#0000FF',
-		     fillOpacity: 0.8,
-		     radius: radius}
-		 ).addTo(map)
+	circle.setLatLng(new L.LatLng(lat, lng))
+	  circle.setRadius(radius)
 	  // move the map to have the location in its center
-	  //map.panTo(new L.LatLng(lat, long));
+      //map.panTo(new L.LatLng(lat, lng));
       }
      
 </script>
