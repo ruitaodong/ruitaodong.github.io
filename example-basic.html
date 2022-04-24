@@ -43,21 +43,33 @@
 		zoomOffset: -1
 	}).addTo(map);
 
+
       if (navigator.geolocation) {
 	navigator.geolocation.watchPosition(showMarker);
       }
 
-      var abc =  L.marker([0,0]).addTo(map);
-      var circle =  L.circleMarker([0, 0], {color: 'green', weight: 0, fillOpacity: 0.4}).addTo(map)
+	var first_pos = new Boolean(true);
+	var abc;
+      var circle;
 
       function showMarker(position) {
 	latit = position.coords.latitude;
 	longit = position.coords.longitude;
 
-      abc.setLatLng(new L.LatLng(latit, longit));
-      circle.setLatLng(new L.LatLng(latit, longit));
-      circle.setRadius(position.coords.accuracy); 
-      map.panTo(new L.LatLng(latit, longit));
+	latlng = new L.LatLng(latit, longit);
+	console.trace('getCenter', latlng);
+
+      if (first_pos) {
+	first_pos = false;
+	abc =  L.marker(latlng).addTo(map);
+	circle =  L.circleMarker(latlng, {color: 'green', weight: 0, fillOpacity: 0.4}).addTo(map);
+      }
+      else {
+	abc.setLatLng(latlng);
+	circle.setLatLng(latlng);
+	circle.setRadius(position.coords.accuracy); 
+	map.panTo(latlng);
+	}
       }
      
 </script>
