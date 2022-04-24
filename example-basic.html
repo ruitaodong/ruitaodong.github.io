@@ -50,7 +50,8 @@
 
 	var first_pos = new Boolean(true);
 	var abc;
-      var circle;
+	var circle;
+	var fov
 
       function showMarker(position) {
 	latit = position.coords.latitude;
@@ -63,6 +64,13 @@
 	first_pos = false;
 	abc =  L.marker(latlng).addTo(map);
 	circle =  L.circleMarker(latlng, {color: 'green', weight: 0, fillOpacity: 0.4}).addTo(map);
+	off_x = 0;
+	off_y = 0.00100;
+	line_len = 0.01;
+	coords = [[latit+off_y, longit+off_x], [latit+off_y-line_len/2, longit+off_x-line_len],
+		  [latit+off_y+line_len/2, longit+off_x-line_len]];
+	console.trace('fov', coords)
+	fov = L.polygon(coords, {color: 'red'}).addTo(map);
       }
       else {
 	abc.setLatLng(latlng);
